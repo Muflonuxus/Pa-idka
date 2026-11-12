@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pažidka 🎒</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Comic Sans MS', 'Segoe UI', cursive, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 3px 3px 0 #ff6b6b;
+    animation: wiggle 3s infinite;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+  }
+
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    border: 5px dashed #ff6b6b;
+  }
+
+  .joke-box {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #ffeaa7;
+    border-radius: 15px;
+    border: 3px solid #fdcb6e;
+    display: none;
+    animation: popIn 0.5s ease;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  button {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-family: inherit;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 0.5rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #d63031;
+  }
+
+  button:hover {
+    background: #ee5253;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #d63031;
+  }
+
+  button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #d63031;
+  }
+
+  .counter {
+    font-size: 2rem;
+    margin: 1rem 0;
+    font-weight: bold;
+    color: #0984e3;
+  }
+
+  .emoji {
+    font-size: 3rem;
+    margin: 1rem 0;
+    display: inline-block;
+    transition: transform 0.3s;
+  }
+
+  .emoji:hover {
+    transform: rotate(15deg) scale(1.2);
+  }
+
+  .hidden-text {
+    display: none;
+    margin-top: 1rem;
+    color: #d63031;
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+
+  footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+
+  <h1>PAŽIDKA 🎒</h1>
+
+  <div class="card">
+    <h2>Vítej na stránce Pažidka!</h2>
+
+    <p>Tohle je bezpečný a vtipný projekt. Žádné vyskakující okna, žádné zacyklení. Jen zábava.</p>
+
+    <div class="emoji" id="mood">😎</div>
+
+    <div class="counter">Počet kliknutí: <span id="count">0</span></div>
+
+    <button id="changeMood">Změň náladu</button>
+    <button id="showJoke">Řekni vtip</button>
+    <button id="reset">Reset</button>
+
+    <div class="joke-box" id="jokeBox">
+      <p id="jokeText"></p>
+    </div>
+
+    <div class="hidden-text" id="secret">TADY JE TAJNÝ VÝSLEDEK: Jsi skvělý! 🌟</div>
+  </div>
+
+  <footer>
+    Vytvořeno pro školní projekt &copy; 2026 • Bezpečná a přívětivá stránka
+  </footer>
+
+<script>
+  const moodEl = document.getElementById('mood');
+  const countEl = document.getElementById('count');
+  const jokeBox = document.getElementById('jokeBox');
+  const jokeText = document.getElementById('jokeText');
+  const secret = document.getElementById('secret');
+
+  const moods = ['😎', '🤓', '🤪', '🥳', '🚀', '🦄', '🍕', '🎉'];
+  const jokes = [
+    "Proč mají programátoři rád tmu? Protože světlo přitahuje chyby (bugy). 🐛",
+    "Co si řekly dvě nuly? 'Ty vypadáš pořád stejně.' �0",
+    "Proč chodí ptáci na jih? Protože cesta pěšky by jim trvala moc dlouho. ✈️",
+    "Jaký je rozdíl mezi učitelem a vlakem? Vlak ti řekne 'pozor, výstup', učitel ti řekne 'pozdravíme pana ředitele'. 🚂",
+    "Proč se v mathématice nenosí hodinky? Protože vždycky se počítá čas. ⏰"
+  ];
+
+  let count = 0;
+
+  document.getElementById('changeMood').addEventListener('click', () => {
+    const randomMood = moods[Math.floor(Math.random() * moods.length)];
+    moodEl.textContent = randomMood;
+    count++;
+    countEl.textContent = count;
+
+    if (count === 10) {
+      secret.style.display = 'block';
+    }
+  });
+
+  document.getElementById('showJoke').addEventListener('click', () => {
+    const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+    jokeText.textContent = randomJoke;
+    jokeBox.style.display = 'block';
+  });
+
+  document.getElementById('reset').addEventListener('click', () => {
+    count = 0;
+    countEl.textContent = '0';
+    moodEl.textContent = '😎';
+    jokeBox.style.display = 'none';
+    secret.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
